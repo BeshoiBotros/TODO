@@ -10,8 +10,12 @@ class TodoSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class TodoItemSerializer(serializers.ModelSerializer):
-    todo = TodoSerializer(required=False)
 
     class Meta:
         model = models.TodoItem
         fields = '__all__'
+        extra_kwargs = {
+            'todo': {'required': False, 'write_only' : True} 
+        }
+
+

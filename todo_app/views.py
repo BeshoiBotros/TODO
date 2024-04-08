@@ -28,9 +28,13 @@ class TodoItemView(APIView):
     
     def post(self, request: HttpRequest):
         user_todo = get_object_or_404(models.Todo, user=request.user)
+        
+        if user_todo is None:
+            return Response({'message' : "User's Todo not found"})
 
         data = request.data.copy()
         data['todo'] = user_todo.pk
+
         serializer = serializers.TodoItemSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
